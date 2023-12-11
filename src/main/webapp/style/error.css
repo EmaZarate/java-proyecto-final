@@ -1,0 +1,23 @@
+.error-title {
+	color: rgb(240, 0, 0);
+}
+
+.error-message {
+	color: rgb(240, 36, 0);
+}
+
+.body-style {
+  background-color: #f8f9fa;		
+}
+
+.h-100 {
+	height: 100%;	
+}
+
+
+.content-error{
+	display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
