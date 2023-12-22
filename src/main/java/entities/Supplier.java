@@ -6,7 +6,14 @@ public class Supplier {
 	private String surname;
 	private String email;
 	private String phone;
+	private boolean selected;
 	
+	public boolean isSelected() {
+		return selected;
+	}
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
 	public int getSupplierId() {
 		return supplierId;
 	}

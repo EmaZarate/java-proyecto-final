@@ -63,7 +63,7 @@
                                 		</div>
                     				</td>
                     				<td>
-                    				<button type="button" class="btn btn-success mx-1">Comprar</button>
+                    				<a href="addProductoToCar?productid=<%=prod.getProductId()%>"><button type="button" class="btn btn-success mx-1">Comprar</button></a> 
                     				<a href="createUpdateProduct?productid=<%=prod.getProductId()%>"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
   										Actualizar
 									</button></a> 

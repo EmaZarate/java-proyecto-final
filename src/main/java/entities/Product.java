@@ -9,6 +9,14 @@ public class Product {
 	private Category category;
 	private int categoryId;
 	private boolean isActive;
+	private int[] supplierIds;
+	
+	public int[] getSupplierIds() {
+		return supplierIds;
+	}
+	public void setSupplierIds(int[] supplierIds) {
+		this.supplierIds = supplierIds;
+	}
 	
 	public boolean isActive() {
 		return isActive;

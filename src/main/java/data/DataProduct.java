@@ -224,7 +224,7 @@ public class DataProduct {
 			stmt.setDouble(4, prod.getPurchasePrice());
 			stmt.setInt(5, prod.getNumber());
 			stmt.setInt(6, prod.getCategoryId());
-			stmt.setBoolean(6, prod.isActive());
+			stmt.setBoolean(7, prod.isActive());
 			
 			stmt.executeUpdate();
 			

@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import entities.Category;
 import entities.Product;
+import entities.Supplier;
 import logic.ProductLogic;
+import logic.SupplierLogic;
 import logic.CategoryLogic;
 
 /**
@@ -38,6 +40,10 @@ public class CreateUpdateProduct extends HttpServlet {
 		
 		try {
 			String productId = request.getParameter("productid");
+			SupplierLogic supLog = new SupplierLogic();
+			
+			LinkedList<Supplier> sups= supLog.getAll();
+			
 			if(productId != null) {
 				int prodId = Integer.parseInt(productId);
 				
@@ -46,15 +52,28 @@ public class CreateUpdateProduct extends HttpServlet {
 				
 				prod.setProductId(prodId);
 				prodLog.getProductById(prod);
+				LinkedList<Integer> supplierIdsByProd = supLog.getAllSuppierByProduct(prod);	
 				
+				for(Supplier sup: sups) {
+					if(supplierIdsByProd.contains(sup.getSupplierId())) {
+						sup.setSelected(true);
+					}
+				}	
 				request.setAttribute("prod", prod);
 			}
 			
-			CategoryLogic catLog = new CategoryLogic();
-			LinkedList<Category> cats = catLog.getAll();
-			request.setAttribute("cats", cats);
 			
-			request.getRequestDispatcher("WEB-INF/CreateUpdateProduct.jsp").forward(request, response);
+			CategoryLogic catLog = new CategoryLogic();
+			
+				
+			LinkedList<Category> cats = catLog.getAll();
+				
+				request.setAttribute("cats", cats);
+				request.setAttribute("sups", sups);
+				
+				request.getRequestDispatcher("WEB-INF/CreateUpdateProduct.jsp").forward(request, response);
+			
+			
 		} catch (SQLException e) {
 			
 			// TODO Auto-generated catch block
@@ -79,6 +98,16 @@ public class CreateUpdateProduct extends HttpServlet {
 			prod.setNumber(Integer.parseInt(request.getParameter("number")));
 			prod.setCategoryId(Integer.parseInt(request.getParameter("category")));
 			
+			String[] stringSuppliersIds =  request.getParameterValues("suppliersIds");
+			
+			int[] suppliersIds = new int[stringSuppliersIds.length];
+			
+			for (int i = 0; i < stringSuppliersIds.length; i++) {
+				suppliersIds[i] = Integer.parseInt(stringSuppliersIds[i]);
+			}
+			
+			
+			
 			if(request.getParameter("isactive") == null) {
 				prod.setActive(false);
 			}
@@ -87,16 +116,20 @@ public class CreateUpdateProduct extends HttpServlet {
 			}
 			
 			ProductLogic prodLog = new ProductLogic();
+			SupplierLogic supLog = new SupplierLogic();
 			
 			String productId = request.getParameter("productId");
 			
 			if(!productId.equals("0")) {
 				prod.setProductId(Integer.parseInt(productId));				
 				prodLog.update(prod);
+				supLog.deleteSupplierProducts(prod);
 			}
 			else {
 				prodLog.create(prod);
 			}
+			
+			supLog.addSupplierToProduct(prod, suppliersIds);
 			
 			LinkedList<Product> prods;
 			

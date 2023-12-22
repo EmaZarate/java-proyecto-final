@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.LinkedList;
 
 import entities.Supplier;
+import entities.Product;
 
 public class DataSupplier {
 	
@@ -53,6 +54,73 @@ public class DataSupplier {
 		return suppliers;
 	}
 	
+	public LinkedList<Integer> getAllSuppierByProduct(Product prod) throws SQLException{
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		LinkedList<Integer> supplierIds= new LinkedList<>();
+		
+		try {
+			stmt= DbConnector.getInstancia().getConn().prepareStatement( "SELECT supplier_id "
+					+ "FROM matisa.product_supplier "
+					+ "where product_id = ?");
+			
+			stmt.setInt(1, prod.getProductId());
+			
+			rs = stmt.executeQuery();
+
+			if(rs!=null) {
+				while(rs.next()) {
+					supplierIds.add(rs.getInt("supplier_id"));
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			}
+		}
+		
+		return supplierIds;
+	}
+	
+	public void deleteSupplierProducts(Product prod) throws SQLException{
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		
+		try {
+			stmt= DbConnector.getInstancia().getConn().prepareStatement(
+					 "delete "
+					 + "FROM matisa.product_supplier "
+					 + "where product_id = ?"
+					);
+
+			stmt.setInt(1, prod.getProductId());
+			
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			}
+		}
+	}
+	
 	public void create(Supplier supplier) throws SQLException{
 		PreparedStatement stmt=null;
 		ResultSet rs=null;
@@ -77,6 +145,56 @@ public class DataSupplier {
             if(rs!=null && rs.next()){
             	supplier.setSupplierId(rs.getInt(1));
             }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			}
+		}
+	}
+	
+	public void createSupplierProduct(Product prod, int[] supplierIds) throws SQLException{
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		
+		try {
+			
+			String query = "insert into  matisa.product_supplier "
+					+ "(product_id, supplier_id) ";
+			
+			for (int i = 0; i < supplierIds.length; i++) {
+				if(i == 0) {
+					query = query + "values (?, ?)";					
+				}
+				else {
+					query = query + "(?, ?)";
+				}
+				if(supplierIds.length != (i+1)) {
+					query = query + ", ";
+				}
+			}
+			
+			stmt= DbConnector.getInstancia().getConn().prepareStatement(
+					query
+					);
+			
+			
+			for (int i = 0; i < supplierIds.length; i++) {
+
+					stmt.setInt((i*2)+ 1, prod.getProductId());
+					stmt.setInt((i*2) + 2, supplierIds[i]);					
+
+			}
+
+			stmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

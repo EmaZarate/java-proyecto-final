@@ -23,6 +23,7 @@
 	<%
     	Product prod = (Product)request.getAttribute("prod");
 		LinkedList<Category> cats = (LinkedList<Category>)request.getAttribute("cats");
+		LinkedList<Supplier> sups = (LinkedList<Supplier>)request.getAttribute("sups");
 	%>
 	
 </head>
@@ -52,7 +53,7 @@
     <input type="number" class="form-control" name="number" id="number" value='<%=prod != null ? prod.getNumber() : 0%>'>
   </div>
     <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="isactive" name="isactive" <%if(prod != null & prod.isActive()){%> checked <%}%>>
+    <input type="checkbox" class="form-check-input" id="isactive" name="isactive" <%if(prod != null && prod.isActive()){%> checked <%}%>>
     <label class="form-check-label" for="exampleCheck1">Habilitado</label>
   </div>
   <select class="form-select" name="category" aria-label="Default select example">
@@ -60,6 +61,14 @@
   <option  
   <%if(prod != null && cat.getCategoryId() == prod.getCategory().getCategoryId()) {%>selected<%}%> value=<%=cat.getCategoryId()%>
   ><%=cat.getName()%></option>
+  <% } %>
+</select>
+
+<select multiple class="form-select" name="suppliersIds" aria-label="Default select example">
+  <% for (Supplier sup : sups) { %>
+  <option  
+  <%if(prod != null && sup.isSelected()) {%>selected<%}%> value=<%=sup.getSupplierId()%>
+  ><%=sup.getName()%></option>
   <% } %>
 </select>
   <button type="submit" class="btn btn-primary">Submit</button>
