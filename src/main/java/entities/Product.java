@@ -10,7 +10,15 @@ public class Product {
 	private int categoryId;
 	private boolean isActive;
 	private int[] supplierIds;
+	private int number;
+	private int numberSale;
 	
+	public int getNumberSale() {
+		return numberSale;
+	}
+	public void setNumberSale(int numberSale) {
+		this.numberSale = numberSale;
+	}
 	public int[] getSupplierIds() {
 		return supplierIds;
 	}
@@ -30,8 +38,6 @@ public class Product {
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
-	private int number;  
-	
 	public int getProductId() {
 		return productId;
 	}
@@ -73,5 +79,23 @@ public class Product {
 	}
 	public void setNumber(int number) {
 		this.number = number;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Product)) {
+			return false;
+		}
+		Product other = (Product) obj;
+		if (productId != other.productId) {
+			return false;
+		}
+		return true;
 	}
 }

@@ -1,5 +1,5 @@
 <%@ page import="java.util.LinkedList" %>
-<%@ page import="entities.Product" %>
+<%@ page import="entities.Sale" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -14,15 +14,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
-    <link href="style/style.css" rel="stylesheet">
     
       <!-- Bootstrap core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 	
-	<title>Productos</title>
+	<title>Sales</title>
 	
 	<%
-    	LinkedList<Product> listProd = (LinkedList<Product>)request.getAttribute("prodList");
+    	LinkedList<Sale> saleList = (LinkedList<Sale>)request.getAttribute("saleList");
 	%>
 	
 </head>
@@ -31,11 +30,8 @@
 <div class="container mt-2">
 		<div class="row mb-4">
 			<div class="col-11  mt-1">
-				<h4>Productos</h4>
+				<h4>Sale</h4>
 			</div>
-			<form class="col-1" action="createUpdateProduct">
-				<button type="submit" class="btn btn-primary">Agregar</button>
-			</form>
 		</div>
 		
 		<div class="row">
@@ -45,30 +41,22 @@
                     		<thead>
                     			<tr>
                     				<th>id</th>
-                    		    	<th>nombre</th>
-                    		    	<th>cantidad disponible</th>
-                    		    	<th>Punto de Pedido</th>
-                    		    	<th>Habilitado</th>
+                    		    	<th>Fecha</th>
+                    		    	<th>Estado</th>
+                    		    	<th>Usario</th>
                         			<th></th>
                       			</tr>
                       		</thead>
                     		<tbody>
-                    		<% for (Product prod : listProd) { %>
+                    		<% for (Sale sale : saleList) { %>
                     			<tr>
-                    				<td><%=prod.getProductId()%></td>
-                    				<td><%=prod.getName()%></td>
-									<td class="<%=(prod.getNumber() - prod.getOrderPoint()) <= 0 ? "red-number" : ""%>"><%=prod.getNumber()%></td>
-									<td><%=prod.getOrderPoint()%></td>
-									<td>
-                    				    <div class="custom-control custom-checkbox">
-                                        	<input type="checkbox" class="custom-control-input" id="defaultDisabled" <%=prod.isActive()?"checked":""%> disabled>
-                                        <label class="custom-control-label" for="defaultDisabled"><%=prod.isActive()?"Si":"No"%></label>
-                                		</div>
-                    				</td>
+                    				<td><%=sale.getSaleId()%></td>
+                    				<td><%=sale.getDate()%></td>
+									<td><%=sale.getState()%></td>
+									<td><%=sale.getUser().getName()%> <%=sale.getUser().getSurname()%></td>
                     				<td>
-                    				<a href="addProductoToCar?productid=<%=prod.getProductId()%>"><button type="button" class="btn btn-success mx-1">Comprar</button></a> 
-                    				<a href="createUpdateProduct?productid=<%=prod.getProductId()%>"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-  										Actualizar
+                    				<a href="saleDetails?saleid=<%=sale.getSaleId()%>"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  										Ver
 									</button></a> 
                     				</td>
                     			</tr>

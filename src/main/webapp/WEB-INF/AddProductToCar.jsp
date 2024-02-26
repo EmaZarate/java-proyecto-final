@@ -39,7 +39,7 @@
 <input type=hidden class="form-control" name="productId" id="productId" aria-describedby="emailHelp"  value='<%=prod.getProductId()%>'>
   <div class="mb-3">
     <label for="number" class="form-label">Cantidad</label>
-    <input type="number" max=<%=prod.getNumber()%> class="form-control" name="number" id="number" required>
+    <input type="number" max=<%=prod.getNumber()%> class="form-control" name="numberSale" id="numberSale" required>
   </div>
   
   <button type="submit" class="btn btn-primary">Submit</button>

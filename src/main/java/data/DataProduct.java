@@ -16,8 +16,9 @@ public class DataProduct {
 		try {
 			stmt= DbConnector.getInstancia().getConn().createStatement();
 			rs= stmt.executeQuery(
-					 "SELECT prod.product_id, prod.name as name, prod.order_point, prod.sale_price, prod.purchase_price,prod.number , cat.category_id, cat.name as cat_name, prod.is_active "
-					+ "FROM matisa.product prod inner join category cat on cat.category_id = prod.category_id"
+					 "SELECT prod.product_id, prod.name as name, prod.order_point, prod.sale_price, prod.purchase_price, prod.number , cat.category_id, cat.name as cat_name, prod.is_active, prod.number - prod.order_point AS difference "
+					+ "FROM matisa.product prod inner join category cat on cat.category_id = prod.category_id "
+					+ "ORDER BY difference"
 					);
 
 			if(rs!=null) {
@@ -94,6 +95,8 @@ public class DataProduct {
 					
 					p.setCategory(category);
 					
+					p.setCategoryId(category.getCategoryId());
+					
 					prods.add(p);
 				}
 			}
@@ -147,6 +150,8 @@ public class DataProduct {
 					category.setName(rs.getString("cat_name"));
 					
 					prod.setCategory(category);
+					
+					prod.setCategoryId(category.getCategoryId());
 				}
 			}
 			

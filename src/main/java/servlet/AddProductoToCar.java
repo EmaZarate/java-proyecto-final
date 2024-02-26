@@ -77,11 +77,11 @@ public class AddProductoToCar extends HttpServlet {
 				prod.setProductId(prodId);
 				prodLog.getProductById(prod);
 				
-				if(Integer.parseInt(request.getParameter("number")) > prod.getNumber()) {
+				if(Integer.parseInt(request.getParameter("numberSale")) > prod.getNumber()) {
 					request.setAttribute("messageError", "Ingrese una cantidad valida");
 				}
 				
-				prod.setNumber(Integer.parseInt(request.getParameter("number")));
+				prod.setNumberSale(Integer.parseInt(request.getParameter("numberSale")));
 				
 				LinkedList<Product> sellProdList = (LinkedList<Product>)request.getSession().getAttribute("sellProdList");
 				

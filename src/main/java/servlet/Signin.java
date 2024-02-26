@@ -64,7 +64,7 @@ public class Signin extends HttpServlet {
 		try {
 			
 			prods = prodLog.getAll();
-			request.getSession().setAttribute("usuario", user);
+			request.getSession().setAttribute("user", user);
 			request.setAttribute("prodList", prods);
 			
 			request.getRequestDispatcher("WEB-INF/ProductList.jsp").forward(request, response);
