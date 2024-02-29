@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entities.Sale;
+import entities.User;
 import logic.SaleLogic;
 
 /**
@@ -39,7 +40,9 @@ public class SalesList extends HttpServlet {
 		
 		try {
 			
-			sales = saleLog.getAll();
+			User user = (User)request.getSession().getAttribute("user");
+			
+			sales = saleLog.getAll(user);
 			
 			request.setAttribute("saleList", sales);
 			

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entities.Product;
+import entities.User;
 import logic.ProductLogic;
 
 /**
@@ -43,7 +44,11 @@ public class DeleteProduct extends HttpServlet {
 		try {
 			
 			prodLog.delete(prod);
-			prods = prodLog.getAll();
+			
+			User user = (User)request.getSession().getAttribute("user");
+			boolean isAdmin = user.getRole().getName().equals("admin");
+			
+			prods = prodLog.getAll(isAdmin);
 			
 			request.setAttribute("prodList", prods);
 			

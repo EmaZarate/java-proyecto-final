@@ -43,7 +43,9 @@
                     				<th>id</th>
                     		    	<th>Fecha</th>
                     		    	<th>Estado</th>
+                    		    	<% if (currentUser.getRole().getName().equals("admin")) { %>
                     		    	<th>Usario</th>
+                    		    	<% } %>
                         			<th></th>
                       			</tr>
                       		</thead>
@@ -53,7 +55,9 @@
                     				<td><%=sale.getSaleId()%></td>
                     				<td><%=sale.getDate()%></td>
 									<td><%=sale.getState()%></td>
+									<% if (currentUser.getRole().getName().equals("admin")) { %>
 									<td><%=sale.getUser().getName()%> <%=sale.getUser().getSurname()%></td>
+									<% } %>
                     				<td>
                     				<a href="saleDetails?saleid=<%=sale.getSaleId()%>"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
   										Ver

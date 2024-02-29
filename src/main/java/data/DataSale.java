@@ -102,17 +102,32 @@ public class DataSale {
 		}
 	}
 	
-	public LinkedList<Sale> getAll() throws SQLException{
-		Statement stmt=null;
+	public LinkedList<Sale> getAll(User currentUser) throws SQLException{
+		PreparedStatement stmt=null;
 		ResultSet rs=null;
 		LinkedList<Sale> sales= new LinkedList<>();
 		
-		try {
-			stmt= DbConnector.getInstancia().getConn().createStatement();
-			rs= stmt.executeQuery(
-					 "SELECT sale.sale_id, sale.user_id, sale.date, sale.state, us.name, us.surname  "
-					+ "FROM matisa.sale as sale inner join user as us on sale.user_id = us.user_id"
-					);
+		try {		
+			String query = "SELECT sale.sale_id, sale.user_id, sale.date, sale.state, us.name, us.surname  "
+					+ "FROM matisa.sale as sale inner join user as us on sale.user_id = us.user_id ";
+			
+			boolean isAdmin = currentUser.getRole().getName().equals("admin");
+			
+			if(!isAdmin) {
+				query += "where us.user_id = ? "
+						+ "order by sale.date desc";
+				
+				stmt = DbConnector.getInstancia().getConn().prepareStatement(query);
+				
+				stmt.setInt(1, currentUser.getId());
+			}
+			
+			else {
+				query += "order by sale.date desc";
+				stmt = DbConnector.getInstancia().getConn().prepareStatement(query);
+			}
+			
+			rs= stmt.executeQuery();
 
 			if(rs!=null) {
 				while(rs.next()) {

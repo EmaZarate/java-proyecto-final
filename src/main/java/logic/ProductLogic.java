@@ -13,8 +13,8 @@ private DataProduct dataProd;
 		dataProd=new DataProduct();
 	}
 	
-	public LinkedList<Product> getAll() throws SQLException{
-		return dataProd.getAll();
+	public LinkedList<Product> getAll(boolean isAdmin) throws SQLException{
+		return dataProd.getAll(isAdmin);
 	}
 	
 	public LinkedList<Product> productSearch(Product prod) throws SQLException{

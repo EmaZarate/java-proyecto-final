@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import entities.Category;
 import entities.Product;
 import entities.Supplier;
+import entities.User;
 import logic.CategoryLogic;
 import logic.ProductLogic;
 import logic.SupplierLogic;
@@ -96,7 +97,10 @@ public class AddProductoToCar extends HttpServlet {
 				
 				LinkedList<Product> prods;
 				
-				prods = prodLog.getAll();
+				User user = (User)request.getSession().getAttribute("user");
+				boolean isAdmin = user.getRole().getName().equals("admin");
+				
+				prods = prodLog.getAll(isAdmin);
 				
 				request.setAttribute("prodList", prods);
 				

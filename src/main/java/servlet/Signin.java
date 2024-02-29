@@ -59,11 +59,13 @@ public class Signin extends HttpServlet {
 			request.getRequestDispatcher("Error.jsp").forward(request, response);
 		}
 		
+		boolean isAdmin = user.getRole().getName().equals("admin");
+		
 		LinkedList<Product> prods;
 		
 		try {
 			
-			prods = prodLog.getAll();
+			prods = prodLog.getAll(isAdmin);
 			request.getSession().setAttribute("user", user);
 			request.setAttribute("prodList", prods);
 			

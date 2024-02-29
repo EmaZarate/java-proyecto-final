@@ -8,18 +8,26 @@ import entities.*;
 
 public class DataProduct {
 	
-	public LinkedList<Product> getAll() throws SQLException{
+	public LinkedList<Product> getAll(boolean isAdmin) throws SQLException{
 		Statement stmt=null;
 		ResultSet rs=null;
 		LinkedList<Product> prods= new LinkedList<>();
 		
 		try {
 			stmt= DbConnector.getInstancia().getConn().createStatement();
-			rs= stmt.executeQuery(
-					 "SELECT prod.product_id, prod.name as name, prod.order_point, prod.sale_price, prod.purchase_price, prod.number , cat.category_id, cat.name as cat_name, prod.is_active, prod.number - prod.order_point AS difference "
-					+ "FROM matisa.product prod inner join category cat on cat.category_id = prod.category_id "
-					+ "ORDER BY difference"
-					);
+			
+			String query = "SELECT prod.product_id, prod.name as name, prod.order_point, prod.sale_price, prod.purchase_price, prod.number , cat.category_id, cat.name as cat_name, prod.is_active, prod.number - prod.order_point AS difference "
+					+ "FROM matisa.product prod inner join category cat on cat.category_id = prod.category_id ";
+					
+			
+			if(isAdmin) {
+				query +=  "ORDER BY difference";
+			}
+			else {
+				query += "where prod.is_active and prod.number > 0";
+			}
+			
+			rs= stmt.executeQuery(query);
 
 			if(rs!=null) {
 				while(rs.next()) {

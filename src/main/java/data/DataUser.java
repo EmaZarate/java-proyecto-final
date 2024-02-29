@@ -14,7 +14,7 @@ public class DataUser {
 		try {
 			stmt=DbConnector.getInstancia().getConn().prepareStatement(
 					"select user_id,u.name,surname,email,r.role_id, r.name as role_name from user u "
-					+ "inner join role r on r.role_id = u.role_id where email=? and password=?"
+					+ "inner join role r on r.role_id = u.role_id where email=? and password=? and u.is_active"
 					);
 			stmt.setString(1, user.getEmail());
 			stmt.setString(2, user.getPassword());

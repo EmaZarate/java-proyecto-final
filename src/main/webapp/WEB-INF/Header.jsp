@@ -1,8 +1,9 @@
 <%@ page import="java.util.LinkedList" %>
-<%@ page import="entities.Product" %>
+<%@ page import="entities.*" %>
 	
 	<%
     	LinkedList<Product> sellProdList = (LinkedList<Product>)session.getAttribute("sellProdList");
+		User currentUser = (User)request.getSession().getAttribute("user");
 	%>
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -19,6 +20,10 @@
         <li class="nav-item">
           <a class="nav-link" href="salesList">Ventas</a>
         </li>
+        <%
+        if(currentUser.getRole().getName().equals("admin"))
+        {
+        %>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Administración
@@ -29,6 +34,9 @@
             <li><a class="dropdown-item" href="userList">Usuarios</a></li>
           </ul>
         </li>
+        <%
+        }
+        %>
       </ul>
       <div class="d-flex" >
       	<a class="icon-link m-2" href="showCar">

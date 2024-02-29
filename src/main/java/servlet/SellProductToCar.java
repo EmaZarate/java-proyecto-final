@@ -47,7 +47,16 @@ public class SellProductToCar extends HttpServlet {
 		Sale sale = new Sale();
 		
 		sale.setDate(LocalDateTime.now());
-		sale.setState("Completado");
+		
+		boolean isAdmin = user.getRole().getName().equals("admin");
+		
+		if(isAdmin) { 
+			sale.setState("Completado");			
+		}
+		else {
+			sale.setState("Incompleto");
+		}
+		
 		sale.setUserId(user.getId());
 		
 		try {
@@ -72,7 +81,7 @@ public class SellProductToCar extends HttpServlet {
 				prodLogic.update(product);
 			}
 			
-			LinkedList<Product> prods = prodLogic.getAll();
+			LinkedList<Product> prods = prodLogic.getAll(isAdmin);
 			request.setAttribute("prodList", prods);
 			
 			request.getSession().setAttribute("sellProdList", null);

@@ -69,7 +69,7 @@
 	                    			</tr>
 	                    		</tbody>
 	        				</table>
-	        				<% if (sale.getState().equals("Incompleto")) { %>
+	        				<% if (sale.getState().equals("Incompleto") && currentUser.getRole().getName().equals("admin")) { %>
                 	 		<div>
 	                    		<a href="updateSale?saleid=<%=sale.getSaleId()%>"><button type="button" class="btn btn-primary mx-1">Completar</button></a>
 	                    	</div>

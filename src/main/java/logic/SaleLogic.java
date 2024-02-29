@@ -7,6 +7,7 @@ import data.DataSale;
 import entities.Product;
 import entities.SaleDetails;
 import entities.Sale;
+import entities.User;
 
 public class SaleLogic {
 	private DataSale dataSale;
@@ -25,8 +26,8 @@ public class SaleLogic {
 		this.dataSale.createSaleDetails(saleId, productList);
 	}
 	
-	public LinkedList<Sale> getAll() throws SQLException {
-		return this.dataSale.getAll();
+	public LinkedList<Sale> getAll(User user) throws SQLException {
+		return this.dataSale.getAll(user);
 	}
 	
 	public Sale getSaleDetails(Sale sale) throws SQLException {
