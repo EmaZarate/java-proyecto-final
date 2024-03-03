@@ -14,6 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+    <link href="style/style.css" rel="stylesheet">
     
       <!-- Bootstrap core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -28,12 +29,13 @@
 <body>
 <%@ include file="Header.jsp" %>
 <div class="container mt-2">
+<img src="assets/imgs/proveedores-banner.jpg" class="img-banner mb-3">
 		<div class="row mb-4">
 			<div class="col-11  mt-1">
 				<h4>Proveedores</h4>
 			</div>
 			<form class="col-1" action="createUpdateSupplier">
-				<button type="submit" class="btn btn-primary">Agregar</button>
+				<button type="submit" class="btn btn-outline-primary">Agregar</button>
 			</form>
 		</div>
 		
@@ -46,7 +48,6 @@
                     				<th>ID</th>
                     		    	<th>Nombre</th>
                     		    	<th>Email</th>
-                        			<th>Rol</th>
                         			<th>Habilitado</th>
                         			<th></th>
                       			</tr>

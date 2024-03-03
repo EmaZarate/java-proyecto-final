@@ -29,12 +29,13 @@
 <body>
 <%@ include file="Header.jsp" %>
 <div class="container mt-2">
+ <img src="assets/imgs/banner-supermercado.jpg" class="img-banner mb-3">
 		<div class="row mb-4">
 			<div class="col-11  mt-1">
 				<h4>Productos</h4>
 			</div>
 			<form class="col-1" action="createUpdateProduct">
-				<button type="submit" class="btn btn-primary">Agregar</button>
+				<button type="submit" class="btn btn-outline-primary">Agregar</button>
 			</form>
 		</div>
 		

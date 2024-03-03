@@ -16,6 +16,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+    <link href="style/style.css" rel="stylesheet">
     
       <!-- Bootstrap core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -37,9 +38,9 @@
 		</div>
 		<div class="row mb-3">
 			<div class="col-11  mt-1">
-				<p>Compardor: <%=sale.getUser().getName() + ' ' +sale.getUser().getSurname()%></p>
-				<p>Fecha: <%=sale.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))%></p>
-				<p>Estado: <%=sale.getState()%></p>
+				<p><strong>Compardor:</strong> <%=sale.getUser().getName() + ' ' +sale.getUser().getSurname()%></p>
+				<p><strong>Fecha:</strong> <%=sale.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))%></p>
+				<p><strong>Estado:</strong> <%=sale.getState()%></p>
 			</div>
 		</div>
 		

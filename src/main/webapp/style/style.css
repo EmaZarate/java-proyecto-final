@@ -3,3 +3,18 @@
 .red-number {
 	color: rgb(255, 83, 87) !important;
 }
+
+body {
+	background-color: #fff7eb !important;
+}
+
+.img-banner {
+	width: 100%;
+    max-width: 1320px;
+}
+
+.cart {
+	color: red;
+	margin-top: 7px;
+	margin-right: 4px;
+}
