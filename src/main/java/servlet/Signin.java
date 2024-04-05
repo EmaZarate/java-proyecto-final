@@ -42,28 +42,27 @@ public class Signin extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		User user = new User();
-		Login ctrl = new Login();
-		ProductLogic prodLog = new ProductLogic();
-		
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		
-		user.setEmail(email);
-		user.setPassword(password);
-		
-		user = ctrl.validate(user);
-		
-		if(user == null) {
-			request.setAttribute("messageError", "usuario y/o contraseña incorrecto");
-			request.getRequestDispatcher("Error.jsp").forward(request, response);
-		}
-		
-		boolean isAdmin = user.getRole().getName().equals("admin");
-		
-		LinkedList<Product> prods;
-		
 		try {
+			User user = new User();
+			Login ctrl = new Login();
+			ProductLogic prodLog = new ProductLogic();
+			
+			String email = request.getParameter("email");
+			String password = request.getParameter("password");
+			
+			user.setEmail(email);
+			user.setPassword(password);
+			
+			user = ctrl.validate(user);
+			
+			if(user == null) {
+				request.setAttribute("messageError", "usuario y/o contraseña incorrecto");
+				request.getRequestDispatcher("Error.jsp").forward(request, response);
+			}
+			
+			boolean isAdmin = user.getRole().getName().equals("admin");
+			
+			LinkedList<Product> prods;
 			
 			prods = prodLog.getAll(isAdmin);
 			request.getSession().setAttribute("user", user);

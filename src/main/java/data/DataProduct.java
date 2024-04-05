@@ -68,6 +68,66 @@ public class DataProduct {
 		return prods;
 	}
 	
+	public LinkedList<Product> getProductsToCheck(Product[] productList) throws SQLException{
+		Statement stmt=null;
+		ResultSet rs=null;
+		
+		LinkedList<Product> prods= new LinkedList<>();
+		
+		try {
+			stmt= DbConnector.getInstancia().getConn().createStatement();
+			
+			String query = "SELECT prod.product_id, prod.name as name, prod.order_point, prod.sale_price, prod.purchase_price, prod.number, prod.is_active, prod.category_id "
+					+ "FROM matisa.product prod "
+					+ "where product_id in (";
+					
+			
+			for (int i = 0; i < productList.length; i++) {
+				query = query + productList[i].getProductId();
+				if(productList.length == (i+1)) {
+					query = query + ") order by product_id";
+				}
+				else {
+					query = query + ", ";
+				}
+			}
+			
+			
+			rs= stmt.executeQuery(query);
+
+			if(rs!=null) {
+				while(rs.next()) {
+					Product p =new Product();
+					p.setProductId(rs.getInt("product_id"));
+					p.setName(rs.getString("name"));
+					p.setOrderPoint(rs.getInt("order_point"));
+					p.setSalePrice(rs.getDouble("sale_price"));
+					p.setPurchasePrice(rs.getDouble("purchase_price"));
+					p.setNumber(rs.getInt("number"));
+					p.setActive(rs.getBoolean("is_active"));
+					p.setCategoryId(rs.getInt("category_id"));
+					
+					prods.add(p);
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw e;
+			}
+		}
+		
+		return prods;
+	}
+	
 	public LinkedList<Product> productSearch(Product prod) throws SQLException{
 		PreparedStatement stmt=null;
 		ResultSet rs=null;

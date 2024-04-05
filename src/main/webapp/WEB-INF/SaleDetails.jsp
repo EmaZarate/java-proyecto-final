@@ -71,9 +71,14 @@
 	                    		</tbody>
 	        				</table>
 	        				<% if (sale.getState().equals("Incompleto") && currentUser.getRole().getName().equals("admin")) { %>
-                	 		<div>
-	                    		<a href="updateSale?saleid=<%=sale.getSaleId()%>"><button type="button" class="btn btn-primary mx-1">Completar</button></a>
-	                    	</div>
+	        				<div class="d-flex">
+		        				<div class="mr-2">
+		                    		<a href="cancelSale?saleid=<%=sale.getSaleId()%>"><button type="button" class="btn btn-secondary mx-1">Cancelar</button></a>
+		                    	</div>
+	                	 		<div>
+		                    		<a href="updateSale?saleid=<%=sale.getSaleId()%>"><button type="button" class="btn btn-primary mx-1">Completar</button></a>
+		                    	</div>
+	        				</div>
 	                    	<% } %>
                     	
        				</div> <!-- /table-responsive -->

@@ -38,4 +38,8 @@ private DataProduct dataProd;
 	public void delete(Product prod) throws SQLException{
 		dataProd.delete(prod);
 	}
+	
+	public LinkedList<Product> getProductsToCheck(Product[] productList)  throws SQLException {
+		return dataProd.getProductsToCheck(productList);
+	}
 }

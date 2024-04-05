@@ -10,13 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entities.Category;
 import entities.Product;
-import entities.Supplier;
 import entities.User;
-import logic.CategoryLogic;
 import logic.ProductLogic;
-import logic.SupplierLogic;
 
 /**
  * Servlet implementation class AddProductoToCar
@@ -108,11 +104,9 @@ public class AddProductoToCar extends HttpServlet {
 				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				request.setAttribute("messageError", "Error agregando el producto");
+				request.getRequestDispatcher("Error.jsp").forward(request, response);
 			}	
-			
-
-		
 		
 	}
 

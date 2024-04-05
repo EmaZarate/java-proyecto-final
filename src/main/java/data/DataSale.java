@@ -3,7 +3,6 @@ package data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
@@ -203,6 +202,7 @@ public class DataSale {
 					SaleDetails saleDetails = new SaleDetails();
 					
 					saleDetails.setNumber(rs.getInt("number"));
+					saleDetails.setProductId(rs.getInt("product_id"));
 					
 					Product prod = new Product();
 					

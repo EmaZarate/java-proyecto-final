@@ -3,7 +3,8 @@ package servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Iterator;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 import javax.servlet.ServletException;
@@ -37,30 +38,17 @@ public class SellProductToCar extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LinkedList<Product> sellProdList = (LinkedList<Product>)request.getSession().getAttribute("sellProdList");
-		
-		User user = (User)request.getSession().getAttribute("user");
-		
-		SaleLogic saleLog = new SaleLogic();
-		ProductLogic prodLogic = new ProductLogic();
-		
-		Sale sale = new Sale();
-		
-		sale.setDate(LocalDateTime.now());
-		
-		boolean isAdmin = user.getRole().getName().equals("admin");
-		
-		if(isAdmin) { 
-			sale.setState("Completado");			
-		}
-		else {
-			sale.setState("Incompleto");
-		}
-		
-		sale.setUserId(user.getId());
-		
 		try {
-			saleLog.createSale(sale);
+			
+			LinkedList<String> ErrorNumberProdsMessage = new LinkedList<String>();
+			LinkedList<Product> sellProdList = (LinkedList<Product>)request.getSession().getAttribute("sellProdList");
+			
+			Collections.sort(sellProdList, new Comparator<Product>() {
+			    @Override
+			    public int compare(Product o1, Product o2) {
+			        return o1.getProductId() - o2.getProductId();
+			    }
+			});
 			
 			Object[] array = sellProdList.toArray();
 			
@@ -72,11 +60,48 @@ public class SellProductToCar extends HttpServlet {
 				prodArray[i] = (Product)array[i];
 			}
 			
+			SaleLogic saleLog = new SaleLogic();
+			ProductLogic prodLogic = new ProductLogic();
+			
+			LinkedList<Product> prodsToCheck = prodLogic.getProductsToCheck(prodArray);
+			
+			for (int i = 0; i < prodsToCheck.size(); i++) {
+				if(prodArray[i].getNumberSale() > prodsToCheck.get(i).getNumber()) {
+					ErrorNumberProdsMessage.add(prodsToCheck.get(i).getName() + " cantidad disponible: " + prodsToCheck.get(i).getNumber());
+				}
+			}
+			
+			if(ErrorNumberProdsMessage.size() > 0) {
+				request.setAttribute("errorNumberProdsMessage", ErrorNumberProdsMessage);
+				request.getRequestDispatcher("WEB-INF/Car.jsp").forward(request, response);
+				return;
+			}
+			
+			User user = (User)request.getSession().getAttribute("user");
+			
+			Sale sale = new Sale();
+			
+			sale.setDate(LocalDateTime.now());
+			
+			boolean isAdmin = user.getRole().getName().equals("admin");
+			
+			if(isAdmin) { 
+				sale.setState("Completado");			
+			}
+			else {
+				sale.setState("Incompleto");
+			}
+			
+			sale.setUserId(user.getId());
+		
+		
+			saleLog.createSale(sale);
+			
 			saleLog.createSaleDetails(sale.getSaleId(), prodArray);
 			
-			for (Iterator iterator = sellProdList.iterator(); iterator.hasNext();) {
-				Product product = (Product) iterator.next();
-				int num = product.getNumber() - product.getNumberSale();
+			for (int i = 0; i < prodsToCheck.size(); i++) {
+				Product product = prodsToCheck.get(i);
+				int num = product.getNumber() - prodArray[i].getNumberSale();
 				product.setNumber(num);
 				prodLogic.update(product);
 			}

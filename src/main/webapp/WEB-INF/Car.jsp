@@ -16,11 +16,15 @@
     <meta name="author" content="">
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
     <link href="style/style.css" rel="stylesheet">
+    <link href="style/error.css" rel="stylesheet">
     
       <!-- Bootstrap core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 	
 	<title>Carrito</title>
+	<%
+		LinkedList<String> errorNumberProdsMessage = (LinkedList<String>)request.getAttribute("errorNumberProdsMessage");
+	%>
 	
 </head>
 <body>
@@ -37,12 +41,13 @@
                 	<div class="table-responsive">
                 	 	<% if(sellProdList == null || sellProdList.size() == 0) { %>
                 	 		<p>No hay productos en su carro</p>
-                	 	<%} %>
+                	 	<%} else {%>
                 	 	
 	                	 	<table class="table">
 	                    		<thead>
 	                    			<tr>
 	                    		    	<th>Nombre</th>
+	                    		    	<th>Cantidad</th>
 	                    		    	<th>Precio</th>
 	                        			<th></th>
 	                      			</tr>
@@ -51,6 +56,7 @@
 	                    		<% for (Product prod : sellProdList) { %>
 	                    			<tr>
 	                    				<td><%=prod.getName()%></td>
+	                    				<td><%=prod.getNumberSale()%></td>
 										<td><%=prod.getNumberSale() * prod.getSalePrice()%></td>
 	                    				<td>
 	                    					<a href="deleteProductToCar?productId=<%=prod.getProductId()%>"><button type="button" class="btn btn-success mx-1">Eliminar</button></a>
@@ -59,6 +65,7 @@
 	                    		<% } %>
 	                    			<tr>
 	                    				<td><strong>Total</strong></td>
+	                    				<td></td>
 										<td><strong><%=CarLogic.showTotal(sellProdList)%></strong></td>
 	                    				<td>
 	                    					<a href="sellProductToCar"><button type="button" class="btn btn-primary mx-1">Comprar</button></a>
@@ -66,9 +73,21 @@
 	                    			</tr>
 	                    		</tbody>
 	        				</table>
-                	 	
-                    	
-       				</div> <!-- /table-responsive -->
+	        				<%}%>
+       				</div>
+       				 <% if(errorNumberProdsMessage != null && errorNumberProdsMessage.size() != 0) { %>
+       				 <div class="error-message">
+	       				 <div class="mb-2">Error en la cantidad solicitado en:</div>
+	       				 	<ul>
+	       				 	<% for (String prodError : errorNumberProdsMessage) { %>
+	       				 		<li><%=prodError%></li>
+	       				 	<% } %>
+	       				 	</ul>
+	       				
+	       				 <div> Elimine el item y ponga una cantidad disponible </div>
+       				 </div>
+       				  <% } %>
+       				 <!-- /table-responsive -->
      			</div> <!-- <div class="col-12 col-sm-12 col-lg-12"> -->
      	</div> <!-- row -->
 	</div> <!-- /container -->
